@@ -22,15 +22,15 @@ request.onerror = function (event) {
 };
 
 function saveRecord (record) {
-    const transaction = db.transaction(["TransactionStore"], "readwrite")
-    const store = transaction.objectStore("TransactionStore")
+    const transactions = db.transaction(["TransactionStore"], "readwrite")
+    const store = transactions.objectStore("TransactionStore")
     store.add({...record})
 }
 
 function checkDatabase () {
 
-    const transaction = db.transaction(["TransactionStore"], "readwrite")
-    const store = transaction.objectStore("TransactionStore")
+    const transactions = db.transactions(["TransactionStore"], "readwrite")
+    const store = transactions.objectStore("TransactionStore")
     const getAll = store.getAll();
 
     getAll.onsuccess = function () {
@@ -45,8 +45,8 @@ function checkDatabase () {
             })
                 .then((response) => response.json())
                 .then(() => {
-                    const transaction = db.transaction(["TransactionStore"], "readwrite")
-                    const store = transaction.objectStore("TransactionStore")
+                    const transactions = db.transactions(["TransactionStore"], "readwrite")
+                    const store = transactions.objectStore("TransactionStore")
                     store.clear();
 
                 })
