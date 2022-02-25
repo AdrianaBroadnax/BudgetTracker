@@ -1,8 +1,10 @@
 let db;
 
-db = indexedDB.open("transactionz", 1)
+const request = indexedDB.open("transactionz", 1)
 
 request.onupgradeneeded = function (event){
+
+    db = event.target.result;
     db.createObjectStore("TransactionStore", {autoIncrement: true})
     db.createIndex("transactionStoreIndex", "1")
 };
