@@ -1,6 +1,6 @@
 let db;
 
-db = indexedDB.open("transactions", 1)
+db = indexedDB.open("transactionz", 1)
 
 request.onupgradeneeded = function (event){
     db.createObjectStore("TransactionStore", {autoIncrement: true})
@@ -16,5 +16,38 @@ request.onsuccuess = function (event) {
 };
 
 request.onerror = function (event) {
-    
+    console.log(event.target.errorCode)
+};
+
+function saveRecord (record) {
+    const transaction = db.transaction(["TransactionStore"], "readwrite")
+    const store = transaction.objectStore("TransactionStore")
+    store.add({...record})
+}
+
+function checkDatabase () {
+
+    const transaction = db.transaction(["TransactionStore"], "readwrite")
+    const store = transaction.objectStore("TransactionStore")
+    const getAll = store.getAll();
+
+    getAll.onsuccess = function () {
+        if (getAll.result.length > 0) {
+            fetch('/api/transaction/bulk', {
+                method: 'POST',
+                body: JSON.stringify(getAll.result),
+                headers: {
+                    Accept: 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then((response) => response.json())
+                .then(() => {
+                    const transaction = db.transaction(["TransactionStore"], "readwrite")
+                    const store = transaction.objectStore("TransactionStore")
+                    store.clear();
+
+                })
+        }
+    }
 }
