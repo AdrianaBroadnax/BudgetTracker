@@ -1,6 +1,5 @@
 let transactions = [];
 let myChart;
-const connector = mongoose.connect(connectionString)
 
 
 
