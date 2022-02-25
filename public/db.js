@@ -1,12 +1,12 @@
 let db;
 
-const request = indexedDB.open("transactionz", 1)
+const request = indexedDB.open("budgetDB", 1)
 
 request.onupgradeneeded = function (event){
 
     db = event.target.result;
-    db.createObjectStore("TransactionStore", {autoIncrement: true})
-    db.createIndex("transactionStoreIndex", "1")
+    const transactionStore = db.createObjectStore("TransactionStore", {autoIncrement: true})
+    // transactionStore.createIndex("transactionStoreIndex", "1")
 };
 
 request.onsuccuess = function (event) {
