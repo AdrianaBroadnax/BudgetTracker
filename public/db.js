@@ -9,5 +9,12 @@ request.onupgradeneeded = function (event){
 
 request.onsuccuess = function (event) {
     db = event.target.result;
-}
 
+    if (navigator.onLine) {
+        checkDatabase();
+     }
+};
+
+request.onerror = function (event) {
+    
+}
