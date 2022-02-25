@@ -1,5 +1,8 @@
 let transactions = [];
 let myChart;
+const connector = mongoose.connect(connectionString)
+
+
 
 fetch("/api/transaction")
   .then(response => {
